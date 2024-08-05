@@ -1,0 +1,33 @@
+POST http://localhost:3000/auth/register
+Content-Type: application/json
+
+{
+    "fullName": "Kiz",
+    "email": "kizito65623281@gmail.com",
+    "password": "pending"
+}
+
+###
+POST http://localhost:3000/auth/login
+Content-Type: application/json
+
+{
+    "email": "kizito65623281@gmail.com",
+    "password": "pending"
+}
+
+###
+POST http://localhost:3000/auth/forget-password
+Content-Type: application/json
+
+{
+    "email": "kizito65623281@gmail.com"
+}
+
+###
+POST http://localhost:3000/auth/reset-password/cead774e-21b6-42df-b3bd-ae29ebb845c8
+Content-Type: application/json
+
+{
+    "newPassword": "pendin23"
+}
