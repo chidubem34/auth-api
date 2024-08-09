@@ -13,7 +13,7 @@ Content-Type: application/json
 
 {
     "email": "kizito65623281@gmail.com",
-    "password": "pending"
+    "password": "pendin23"
 }
 
 ###
@@ -25,12 +25,12 @@ Content-Type: application/json
 }
 
 ###
-POST http://localhost:3000/auth/reset-password/cead774e-21b6-42df-b3bd-ae29ebb845c8
+POST http://kizito-auth.onrender.com/auth/reset-password/37d4bc75-7e65-4e1f-877c-0a9f49474050
 Content-Type: application/json
 
 {
     "newPassword": "pendin23"
 }
 
-8050638554  palmpay
-funmilayo olawale
+###
+GET   https://kizito-auth.onrender.com/auth/verify-email/aef6913d-9401-4310-9561-f122293021c1

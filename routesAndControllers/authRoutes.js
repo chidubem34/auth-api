@@ -70,22 +70,38 @@ authRouter.get("/verify-email/:token", async (req, res) => {
       return;
     }
 
-    await userModel.findOneAndUpdate({
-      authToken: token,
-      authPurpose: "verify-email",
-      isEmailVerified: true,
-      authToken: "",
-      authPurpose: "",
-    });
+    const updateUser = await userModel.findOneAndUpdate(
+      {
+        authToken: token,
+        authPurpose: "verify-email",
+      },
+      {
+        isEmailVerified: true,
+        authToken: "",
+        authPurpose: "",
+      },
+      { new: true }
+    );
+    await updateUser.save()
 
-    res.send({
-      isSuccessful: true,
-      message: "Email verified successfully",
-    });
+    if (!updateUser) {
+      res.status(500).send({
+        isSuccessful: false,
+        message: "An error occurred during email verification",
+      });
+      return;
+    }
+
+    if (updateUser.isEmailVerified === "true") {
+      res.send({
+        isSuccessful: true,
+        message: "Email verified successfully",
+      });
+    }
   } catch (error) {
     res.status(500).send({
       isSuccessful: false,
-      message: "An error occurred",
+      message: "An error occurred during email verification",
     });
   }
 });
@@ -104,7 +120,7 @@ authRouter.post("/login", async (req, res) => {
       return;
     }
 
-    if (!user.isEmailVerified) {
+    if (user.isEmailVerified === "true") {
       res.status(400).send({
         isSuccessful: false,
         message: "Your Email is not verified",
@@ -130,7 +146,7 @@ authRouter.post("/login", async (req, res) => {
       process.env.AUTH_KEY
     );
 
-    res.send({
+    res.status(200).send({
       isSuccessful: true,
       message: "User logged in successfully",
       userDetails: {
@@ -196,7 +212,6 @@ authRouter.post("/reset-password/:token", async (req, res) => {
   try {
     const userToken = await userTokenModel.findOne({ token });
 
-    console.log(userToken);
 
     if (!userToken) {
       res.status(404).send({
